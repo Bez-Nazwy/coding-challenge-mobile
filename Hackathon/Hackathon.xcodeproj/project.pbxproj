@@ -9,12 +9,11 @@
 /* Begin PBXBuildFile section */
 		201D4F5077084FAADD8DE259 /* Pods_Hackathon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD125BF05C4E09C37FDCDE2 /* Pods_Hackathon.framework */; };
 		E20AABDA21A6EFC6004FFE22 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20AABD921A6EFC6004FFE22 /* AppDelegate.swift */; };
-		E20AABDC21A6EFC6004FFE22 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20AABDB21A6EFC6004FFE22 /* RegisterViewController.swift */; };
+		E20AABDC21A6EFC6004FFE22 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20AABDB21A6EFC6004FFE22 /* LoginViewController.swift */; };
 		E20AABDF21A6EFC6004FFE22 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E20AABDD21A6EFC6004FFE22 /* Main.storyboard */; };
 		E20AABE121A6EFC7004FFE22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E20AABE021A6EFC7004FFE22 /* Assets.xcassets */; };
 		E20AABE421A6EFC7004FFE22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E20AABE221A6EFC7004FFE22 /* LaunchScreen.storyboard */; };
 		E20AABEC21A6F4C0004FFE22 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20AABEB21A6F4C0004FFE22 /* Alamofire.framework */; };
-		E20AABEE21A6F7A7004FFE22 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20AABED21A6F7A7004FFE22 /* LoginViewController.swift */; };
 		E20AABF021A6F7BF004FFE22 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20AABEF21A6F7BF004FFE22 /* MainViewController.swift */; };
 		E23BAD3A21B14DAF008DFF63 /* SorApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23BAD3921B14DAF008DFF63 /* SorApi.swift */; };
 /* End PBXBuildFile section */
@@ -24,13 +23,12 @@
 		D745B8C77032CB9C411F76DC /* Pods-Hackathon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hackathon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hackathon/Pods-Hackathon.debug.xcconfig"; sourceTree = "<group>"; };
 		E20AABD621A6EFC6004FFE22 /* Hackathon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hackathon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E20AABD921A6EFC6004FFE22 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E20AABDB21A6EFC6004FFE22 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		E20AABDB21A6EFC6004FFE22 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E20AABDE21A6EFC6004FFE22 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E20AABE021A6EFC7004FFE22 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E20AABE321A6EFC7004FFE22 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E20AABE521A6EFC7004FFE22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E20AABEB21A6F4C0004FFE22 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E20AABED21A6F7A7004FFE22 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E20AABEF21A6F7BF004FFE22 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E23BAD3921B14DAF008DFF63 /* SorApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SorApi.swift; sourceTree = "<group>"; };
 		E2812EED21AE617D00F1B66D /* Hackathon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hackathon.entitlements; sourceTree = "<group>"; };
@@ -91,8 +89,7 @@
 			children = (
 				E2812EED21AE617D00F1B66D /* Hackathon.entitlements */,
 				E20AABD921A6EFC6004FFE22 /* AppDelegate.swift */,
-				E20AABDB21A6EFC6004FFE22 /* RegisterViewController.swift */,
-				E20AABED21A6F7A7004FFE22 /* LoginViewController.swift */,
+				E20AABDB21A6EFC6004FFE22 /* LoginViewController.swift */,
 				E20AABEF21A6F7BF004FFE22 /* MainViewController.swift */,
 				E23BAD3921B14DAF008DFF63 /* SorApi.swift */,
 				E20AABDD21A6EFC6004FFE22 /* Main.storyboard */,
@@ -239,8 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23BAD3A21B14DAF008DFF63 /* SorApi.swift in Sources */,
-				E20AABEE21A6F7A7004FFE22 /* LoginViewController.swift in Sources */,
-				E20AABDC21A6EFC6004FFE22 /* RegisterViewController.swift in Sources */,
+				E20AABDC21A6EFC6004FFE22 /* LoginViewController.swift in Sources */,
 				E20AABDA21A6EFC6004FFE22 /* AppDelegate.swift in Sources */,
 				E20AABF021A6F7BF004FFE22 /* MainViewController.swift in Sources */,
 			);
@@ -393,7 +389,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZVAPY9CY9V;
 				INFOPLIST_FILE = Hackathon/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = kapala.HackathonWithNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -410,7 +409,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZVAPY9CY9V;
 				INFOPLIST_FILE = Hackathon/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = kapala.HackathonWithNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

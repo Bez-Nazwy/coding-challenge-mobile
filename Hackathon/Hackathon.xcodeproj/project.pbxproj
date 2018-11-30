@@ -16,6 +16,7 @@
 		E20AABEC21A6F4C0004FFE22 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20AABEB21A6F4C0004FFE22 /* Alamofire.framework */; };
 		E20AABF021A6F7BF004FFE22 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20AABEF21A6F7BF004FFE22 /* MainViewController.swift */; };
 		E23BAD3A21B14DAF008DFF63 /* SorApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23BAD3921B14DAF008DFF63 /* SorApi.swift */; };
+		E2AD0AD621B1D68500A361DD /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AD0AD521B1D68500A361DD /* UIView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		E20AABEF21A6F7BF004FFE22 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E23BAD3921B14DAF008DFF63 /* SorApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SorApi.swift; sourceTree = "<group>"; };
 		E2812EED21AE617D00F1B66D /* Hackathon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hackathon.entitlements; sourceTree = "<group>"; };
+		E2AD0AD521B1D68500A361DD /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		FEAEABEBB07D05190F9815C2 /* Pods-Hackathon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hackathon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hackathon/Pods-Hackathon.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,8 +98,17 @@
 				E20AABE021A6EFC7004FFE22 /* Assets.xcassets */,
 				E20AABE221A6EFC7004FFE22 /* LaunchScreen.storyboard */,
 				E20AABE521A6EFC7004FFE22 /* Info.plist */,
+				E2AD0AD721B1D68C00A361DD /* Extensions */,
 			);
 			path = Hackathon;
+			sourceTree = "<group>";
+		};
+		E2AD0AD721B1D68C00A361DD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E2AD0AD521B1D68500A361DD /* UIView+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,6 +249,7 @@
 				E23BAD3A21B14DAF008DFF63 /* SorApi.swift in Sources */,
 				E20AABDC21A6EFC6004FFE22 /* LoginViewController.swift in Sources */,
 				E20AABDA21A6EFC6004FFE22 /* AppDelegate.swift in Sources */,
+				E2AD0AD621B1D68500A361DD /* UIView+Extension.swift in Sources */,
 				E20AABF021A6F7BF004FFE22 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

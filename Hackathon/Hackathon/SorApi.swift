@@ -68,7 +68,7 @@ class SorApi {
             "password" : userPassword
         ]
         
-        self.performRequest(method: .post, url: self.createRequestPath(endpoint: .getTestData), parameters: parameters, encoding: JSONEncoding.default, headers: nil) { (response) in
+        self.performRequest(method: .post, url: self.createRequestPath(endpoint: .login), parameters: parameters, encoding: JSONEncoding.default, headers: nil) { (response) in
             
             switch response.result
             {

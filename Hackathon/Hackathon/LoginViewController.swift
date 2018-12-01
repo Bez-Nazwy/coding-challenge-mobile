@@ -35,6 +35,11 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.userNumberTextField.becomeFirstResponder()
+    }
+    
     @IBAction func loginButtonDidClick(_ sender: UIButton) {
         
         self.errorLbl.text = ""

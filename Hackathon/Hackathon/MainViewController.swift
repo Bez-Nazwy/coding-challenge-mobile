@@ -28,21 +28,29 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = myNumber
-        self.downloadData()
         self.runTimer()
+        self.downloadData()
+        
     }
     
-    func downloadData() {
+    func downloadData(isUpdateWaitTime: Bool = true) {
         SorApi.sharedInstance.downloadNumberData(number: myNumber, completionHandler: { (response) in
             
             if let dic = response {
                 if let queueNumber = dic["queueNumber"] {
-                    self.queueNumberLbl.text = "\(queueNumber)"
-                    if self.queueNumberLbl.text != "\(queueNumber)" {
+                    
+                    if self.queueNumberLbl.text != "\(queueNumber)" && isUpdateWaitTime {
                         UIView.animate(withDuration: 0.6) {
                             self.timerLbl.frame.origin.x -= 400
                         }
                     }
+                    
+                    if (queueNumber as! Int) == 0 {
+                        self.queueNumberLbl.text = "Teraz twoja kolej"
+                    } else {
+                        self.queueNumberLbl.text = "\(queueNumber)"
+                    }
+                    
                 }
                 
                 if let serviceTime = dic["serviceTime"] {
@@ -76,18 +84,17 @@ class MainViewController: UIViewController {
     
     @objc func updateTimer() {
         
-        if seconds <= 0 {
-            self.timerLbl.text = "Teraz twoja kolej"
+        if seconds <= 0 && self.queueNumberLbl.text == "Teraz twoja kolej" {
+            
+            self.timerLbl.text = "-"
         }
         
-        if seconds < 1 {
-//            timer.invalidate()
-        } else {
+        if seconds > 0 {
             seconds -= 1
             timerLbl.text = timeString(time: TimeInterval(seconds))
         }
         if Int(seconds) % 5 == 0 {
-            downloadData()
+            downloadData(isUpdateWaitTime: seconds>0)
         }
     }
     

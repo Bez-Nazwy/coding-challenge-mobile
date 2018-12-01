@@ -16,8 +16,21 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorLbl: UILabel!
     
+    var originalViewFrame: CGRect!
+    var isKeyboardVisible: Bool! = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        super.viewDidLoad()
+        originalViewFrame = self.view.frame;
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
         self.errorLbl.textColor = .red
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -70,6 +83,22 @@ class LoginViewController: UIViewController {
         textField.layer.borderColor = UIColor.red.cgColor
         textField.layer.cornerRadius = 4
         textField.shake()
+    }
+    
+    @objc func keyboardShow(notification: NSNotification) {
+        let info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        self.view.frame.size.height = keyboardFrame.origin.y
+        self.isKeyboardVisible = true
+    }
+    
+    @objc func keyboardHide(notification: NSNotification) {
+        self.view.frame = originalViewFrame
+    }
+    
+    @objc func dismissKeyboard() {
+        self.isKeyboardVisible = false
+        view.endEditing(true)
     }
 }
 

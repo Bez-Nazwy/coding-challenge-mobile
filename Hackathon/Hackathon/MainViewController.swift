@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var queueNumberLbl: UILabel!
     @IBOutlet weak var timerLbl: UILabel!
     var timer = Timer()
-    var seconds = 9000
+    var seconds:Double = 9000
     var myNumber = ""
     @IBOutlet weak var myDoctorLbl: UILabel!
     
@@ -40,9 +40,15 @@ class MainViewController: UIViewController {
                 }
                 
                 if let serviceTime = dic["serviceTime"] {
-                    let time = Date(timeIntervalSince1970: serviceTime as! Double)
-//                    (timeIntervalSince1970: serviceTime as! Double)
-                    print(time)
+                    let time = Date(timeIntervalSince1970: (serviceTime as! Double)/1000)
+//
+                    let currentTime = NSDate().timeIntervalSince1970
+                    
+                    self.seconds = (serviceTime as! Double) - currentTime
+                    print(self.seconds)
+                    UIView.animate(withDuration: 0.6) {
+                        self.timerLbl.frame.origin.x -= 400
+                    }
 //                    self.seconds = time.timeIntervalSinceNow.int
 //                        (serviceTime as! Int) * 60
                 }
@@ -79,7 +85,7 @@ class MainViewController: UIViewController {
             seconds -= 1
             timerLbl.text = timeString(time: TimeInterval(seconds))
         }
-        if seconds % 10 == 0 {
+        if Int(seconds) % 10 == 0 {
             downloadData()
         }
     }
@@ -93,9 +99,7 @@ class MainViewController: UIViewController {
     
     func runTimer() {
 
-        UIView.animate(withDuration: 0.6) {
-            self.timerLbl.frame.origin.x -= 400
-        }
+        
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
     }
@@ -131,5 +135,26 @@ class MainViewController: UIViewController {
     
     @IBAction func logoutDidClick(_ sender: UIButton) {
         self.logout()
+    }
+}
+
+extension Date {
+    init?(jsonDate: String) {
+        
+        let prefix = "/Date("
+        let suffix = ")/"
+        
+        // Check for correct format:
+        guard jsonDate.hasPrefix(prefix) && jsonDate.hasSuffix(suffix) else { return nil }
+        
+        // Extract the number as a string:
+        let from = jsonDate.index(jsonDate.startIndex, offsetBy: prefix.characters.count)
+        let to = jsonDate.index(jsonDate.endIndex, offsetBy: -suffix.characters.count)
+        
+        // Convert milliseconds to double
+        guard let milliSeconds = Double(jsonDate[from ..< to]) else { return nil }
+        
+        // Create NSDate with this UNIX timestamp
+        self.init(timeIntervalSince1970: milliSeconds/1000.0)
     }
 }

@@ -18,6 +18,7 @@ class SorApi {
     private enum Endpoint:String {
         case getTestData = "/api/patients"
         case login = "/api/auth/mobile"
+        case postpone = "/api/patients/postpone"
     }
     
     private func createRequestPath(endpoint:Endpoint, param:String = "") -> String {
@@ -83,13 +84,13 @@ class SorApi {
         }
     }
     
-    public func leaveQueue(number:String ,completionHandler:@escaping ((_:[String : Any]?) -> Void), errorHandler:@escaping ((_ error:Error) -> Void)) {
+    public func postponeQueue(number:String ,completionHandler:@escaping ((_:[String : Any]?) -> Void), errorHandler:@escaping ((_ error:Error) -> Void)) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let header: HTTPHeaders = [
             "Authorization" : "Bearer \(appDelegate.token)"
         ]
         
-        self.performRequest(method: .get, url: self.createRequestPath(endpoint: .getTestData, param: number), parameters: nil, encoding: JSONEncoding.default, headers: header) { (response) in
+        self.performRequest(method: .post, url: self.createRequestPath(endpoint: .postpone, param: number), parameters: nil, encoding: JSONEncoding.default, headers: header) { (response) in
             
             switch response.result
             {
@@ -102,5 +103,22 @@ class SorApi {
         }
     }
 
-    
+    public func resign(number:String ,completionHandler:@escaping ((_:[String : Any]?) -> Void), errorHandler:@escaping ((_ error:Error) -> Void)) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let header: HTTPHeaders = [
+            "Authorization" : "Bearer \(appDelegate.token)"
+        ]
+        
+        self.performRequest(method: .delete, url: self.createRequestPath(endpoint: .getTestData, param: number), parameters: nil, encoding: JSONEncoding.default, headers: header) { (response) in
+            
+            switch response.result
+            {
+            case .success(let responseObject):
+                let json = JSON(responseObject)
+                completionHandler(json.dictionaryObject)
+            case .failure(_):
+                errorHandler(response.error!)
+            }
+        }
+    }
 }

@@ -20,8 +20,9 @@ class MainViewController: UIViewController {
     @IBOutlet weak var queueNumberLbl: UILabel!
     @IBOutlet weak var timerLbl: UILabel!
     var timer = Timer()
-    var seconds:Double = 9000
+    var seconds:Double = 0
     var myNumber = ""
+    var ai:UIActivityIndicatorView = UIActivityIndicatorView()
     @IBOutlet weak var myDoctorLbl: UILabel!
     
     override func viewDidLoad() {
@@ -37,20 +38,18 @@ class MainViewController: UIViewController {
             if let dic = response {
                 if let queueNumber = dic["queueNumber"] {
                     self.queueNumberLbl.text = "\(queueNumber)"
+                    if self.queueNumberLbl.text != "\(queueNumber)" {
+                        UIView.animate(withDuration: 0.6) {
+                            self.timerLbl.frame.origin.x -= 400
+                        }
+                    }
                 }
                 
                 if let serviceTime = dic["serviceTime"] {
-                    let time = Date(timeIntervalSince1970: (serviceTime as! Double)/1000)
-//
+
                     let currentTime = NSDate().timeIntervalSince1970
                     
-                    self.seconds = (serviceTime as! Double) - currentTime
-                    print(self.seconds)
-                    UIView.animate(withDuration: 0.6) {
-                        self.timerLbl.frame.origin.x -= 400
-                    }
-//                    self.seconds = time.timeIntervalSinceNow.int
-//                        (serviceTime as! Int) * 60
+                    self.seconds = (serviceTime as! Double)/1000 - currentTime
                 }
                 
                 if let doctor = dic["doctor"] {
@@ -70,8 +69,6 @@ class MainViewController: UIViewController {
                 }
                 
             }
-            
-            //load response/ refresh view
         }) { (error) in
             print(error)
         }
@@ -79,13 +76,17 @@ class MainViewController: UIViewController {
     
     @objc func updateTimer() {
         
+        if seconds <= 0 {
+            self.timerLbl.text = "Teraz twoja kolej"
+        }
+        
         if seconds < 1 {
-            timer.invalidate()
+//            timer.invalidate()
         } else {
             seconds -= 1
             timerLbl.text = timeString(time: TimeInterval(seconds))
         }
-        if Int(seconds) % 10 == 0 {
+        if Int(seconds) % 5 == 0 {
             downloadData()
         }
     }
@@ -98,8 +99,6 @@ class MainViewController: UIViewController {
     }
     
     func runTimer() {
-
-        
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
     }
@@ -115,11 +114,32 @@ class MainViewController: UIViewController {
         let ac = UIAlertController(title: "Czy jesteś pewny?", message: "", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Tak", style: .default, handler: { (action) in
             if resign {
-                
+                SorApi.sharedInstance.resign(number: self.myNumber, completionHandler: { (response) in
+                    self.logout()
+                }, errorHandler: { (error) in
+                    self.logout()
+                    print(error)
+                })
             } else {
+//                let sv = UIViewController.displaySpinner(onView: self.view)
                 
+                let ai = UIActivityIndicatorView.init(style: UIActivityIndicatorView.Style.whiteLarge)
+                ai.color = UIColor.gray
+                ai.startAnimating()
+                self.queueNumberLbl.text = ""
+//                self.queueNumberLbl.backgroundColor = .white
+                ai.center = self.queueNumberLbl.center
+                self.view.addSubview(ai)
+                
+                SorApi.sharedInstance.postponeQueue(number: self.myNumber, completionHandler: { (response) in
+                    self.downloadData()
+                    ai.stopAnimating()
+                }, errorHandler: { (error) in
+                    self.downloadData()
+                    ai.stopAnimating()
+                })
             }
-            self.downloadData()
+            
         }))
         ac.addAction(UIAlertAction(title: "Nie", style: .cancel, handler: nil))
         self.present(ac, animated: true, completion: nil)
@@ -135,26 +155,5 @@ class MainViewController: UIViewController {
     
     @IBAction func logoutDidClick(_ sender: UIButton) {
         self.logout()
-    }
-}
-
-extension Date {
-    init?(jsonDate: String) {
-        
-        let prefix = "/Date("
-        let suffix = ")/"
-        
-        // Check for correct format:
-        guard jsonDate.hasPrefix(prefix) && jsonDate.hasSuffix(suffix) else { return nil }
-        
-        // Extract the number as a string:
-        let from = jsonDate.index(jsonDate.startIndex, offsetBy: prefix.characters.count)
-        let to = jsonDate.index(jsonDate.endIndex, offsetBy: -suffix.characters.count)
-        
-        // Convert milliseconds to double
-        guard let milliSeconds = Double(jsonDate[from ..< to]) else { return nil }
-        
-        // Create NSDate with this UNIX timestamp
-        self.init(timeIntervalSince1970: milliSeconds/1000.0)
     }
 }

@@ -24,6 +24,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonDidClick(_ sender: UIButton) {
         
+        self.errorLbl.text = ""
         if (self.userNumberTextField.text?.isEmpty)! {
             self.badText(textField: self.userNumberTextField)
         } else {
@@ -42,9 +43,18 @@ class LoginViewController: UIViewController {
         SorApi.sharedInstance.login(userNumber: number, userPassword: password, completionHandler: { (response) in
             //tu ide dalej i zapisuje token
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            if let data = response {
-                let dic = data.first as! NSDictionary
-                appDelegate.token =  dic.value(forKey: "token") as! String
+            if let dic = response {
+                
+                if let token = dic["token"] {
+                    appDelegate.token = token as! String
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "main") as! MainViewController
+                    vc.myNumber = number
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else if let msg = dic["message"] {
+                    self.badText(textField: self.userNumberTextField)
+                    self.badText(textField: self.passwordTextField)
+                    self.errorLbl.text = (msg as! String)
+                }
             }
             
         }) { (error) in

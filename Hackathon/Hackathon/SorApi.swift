@@ -13,18 +13,26 @@ import SwiftyJSON
 class SorApi {
     public static let sharedInstance = SorApi()
     
-    private let baseURL = "localhost:8080"
+    private let baseURL = "http://156.17.140.39"
     
     private enum Endpoint:String {
-        case getTestData = "/api/mobile/test"
-        case login = "/api/mobile/auth"
+        case getTestData = "/api/patients"
+        case login = "/api/auth/mobile"
+    }
+    
+    private func createRequestPath(endpoint:Endpoint, param:String = "") -> String {
+        
+        let formedPath = baseURL + "\(endpoint.rawValue)" + "/\(param)"
+        
+        return formedPath
     }
     
     private func performRequest(method:HTTPMethod, url:String, parameters:Parameters?, encoding:ParameterEncoding, headers:[String:String]?, handler:((_:(DataResponse<Any>)) -> Void)?)
     {
         do
         {
-            try Alamofire.request(url.asURL(), method: method, parameters: parameters, encoding: encoding, headers: headers)
+            
+           try Alamofire.request(url.asURL(), method: method, parameters: parameters, encoding: encoding, headers: headers)
                 .responseJSON { response in
                     handler?(response)
             }
@@ -35,36 +43,29 @@ class SorApi {
         }
     }
     
-    private func createRequestPath(endpoint:Endpoint) -> String {
-        
-        let formedPath = baseURL + "\(endpoint.rawValue)"
-        
-        return formedPath
-    }
-    
-    public func downloadNumberData(completionHandler:@escaping ((_:[Any]?) -> Void), errorHandler:@escaping ((_ error:Error) -> Void)) {
+    public func downloadNumberData(number:String ,completionHandler:@escaping ((_:[String : Any]?) -> Void), errorHandler:@escaping ((_ error:Error) -> Void)) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let header: HTTPHeaders = [
             "Authorization" : "Bearer \(appDelegate.token)"
         ]
         
-        self.performRequest(method: .get, url: self.createRequestPath(endpoint: .getTestData), parameters: nil, encoding: JSONEncoding.default, headers: header) { (response) in
+        self.performRequest(method: .get, url: self.createRequestPath(endpoint: .getTestData, param: number), parameters: nil, encoding: JSONEncoding.default, headers: header) { (response) in
             
             switch response.result
             {
             case .success(let responseObject):
                 let json = JSON(responseObject)
-                completionHandler(json.arrayObject)
+                completionHandler(json.dictionaryObject)
             case .failure(_):
                 errorHandler(response.error!)
             }
         }
     }
     
-    public func login(userNumber:String, userPassword: String, completionHandler:@escaping ((_:[Any]?) -> Void), errorHandler:@escaping ((_ error:Error) -> Void)) {
+    public func login(userNumber:String, userPassword: String, completionHandler:@escaping ((_:[String : Any]?) -> Void), errorHandler:@escaping ((_ error:Error) -> Void)) {
         
         let parameters: Parameters = [
-            "number" : userNumber,
+            "patientNumber" : userNumber,
             "password" : userPassword
         ]
         
@@ -74,11 +75,32 @@ class SorApi {
             {
             case .success(let responseObject):
                 let json = JSON(responseObject)
-                completionHandler(json.arrayObject)
+                print("halo \(json)")
+                completionHandler(json.dictionaryObject)
             case .failure(_):
                 errorHandler(response.error!)
             }
         }
     }
+    
+    public func leaveQueue(number:String ,completionHandler:@escaping ((_:[String : Any]?) -> Void), errorHandler:@escaping ((_ error:Error) -> Void)) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let header: HTTPHeaders = [
+            "Authorization" : "Bearer \(appDelegate.token)"
+        ]
+        
+        self.performRequest(method: .get, url: self.createRequestPath(endpoint: .getTestData, param: number), parameters: nil, encoding: JSONEncoding.default, headers: header) { (response) in
+            
+            switch response.result
+            {
+            case .success(let responseObject):
+                let json = JSON(responseObject)
+                completionHandler(json.dictionaryObject)
+            case .failure(_):
+                errorHandler(response.error!)
+            }
+        }
+    }
+
     
 }
